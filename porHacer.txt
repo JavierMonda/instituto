@@ -1,0 +1,9 @@
+## POR HACER ##
+
+En este archivo se expondrán los fallos en el código, mejoras, sugerencias, 
+cosas que hay que hacer....
+
+# Fallo modificación registro 'modalidad' en archivo 'admin/tablas/tablaCiclo.php'
+# Mostrar avisos PHP y errores en '<div id"error">'
+	- Muestra conexión exitosa!.
+	- Muestra 'Registro insertado con éxtito!'

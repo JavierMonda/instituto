@@ -57,7 +57,7 @@ DROP TABLE IF EXISTS `tCiclo`;
 CREATE TABLE `tCiclo` (
   `nombreCiclo` varchar(45) NOT NULL,
   `grado` enum('Medio','Superior') NOT NULL,
-  `modalidad` enum('Presencial','Semi-presencial','A distacia') NOT NULL,
+  `modalidad` enum('Presencial','Semi-presencial','A distancia') NOT NULL,
   PRIMARY KEY (`nombreCiclo`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
