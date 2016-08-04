@@ -219,8 +219,21 @@
                             <!-- /input-group -->
                         </li>
                         <li>
-                            <a href="index.html"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                            <a href="../index.html"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                         </li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                <i class="fa fa-dashboard fa-fw"></i> Tablas <i class="fa fa-caret-down"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-user">
+                                <li><a href="#"><i class="fa fa-user fa-fw"></i> Ciclos</a>
+                                </li>
+                                <li><a href="#"><i class="fa fa-gear fa-fw"></i> Asignaturas</a>
+                                </li>
+                            </ul>
+                            <!-- /.dropdown-user -->
+                        </li>
+                        <!-- /.dropdown -->
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->
