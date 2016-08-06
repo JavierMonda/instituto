@@ -10,7 +10,7 @@
     <meta name="description" content="">
     <meta name="author" content="Javier Jiménez García">
 
-    <title>Tabla Ciclos - Administración</title>
+    <title>Tabla Capacitación - Administración</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="../bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -49,12 +49,12 @@
 
     // SI HACEMOS CLICK EN ALTA 2
     if (isset($_POST["alta2"])){
-        $nombreCiclo = $_POST["nombreCiclo"];
-        $grado = $_POST["grado"];
-        $modalidad = $_POST["modalidad"];
+        $idCapacitacion = $_POST["idCapacitacion"];
+        $nombreCapacitacion = $_POST["nombreCapacitacion"];
+        $descripcion = $_POST["descripcion"];
 
         //Se describe la inserción de datos en SQL
-        $sql = "INSERT INTO tCiclo VALUES ('$nombreCiclo','$grado','$modalidad');";
+        $sql = "INSERT INTO tCapacitacion VALUES ($idCapacitacion,'$nombreCapacitacion','$descripcion');";
         
         if ($mysqli->query($sql)) {
             echo "
@@ -72,22 +72,22 @@
     // SI HACEMOS CLICK EN GUARDAR
     if (isset($_POST["guardar"]) && (isset($_POST["seleccionar"]))) {
         $seleccionar = $_POST["seleccionar"];
-        $nombreCiclo = $_POST["nombreCiclo"];
-        $grado = $_POST["grado"];
-        $modalidad = $_POST["modalidad"];
+        $idCapacitacion = $_POST["idCapacitacion"];
+        $nombreCapacitacion = $_POST["nombreCapacitacion"];
+        $descripcion = $_POST["descripcion"];
                         
-        for ($i=0;$i < count($nombreCiclo);$i++) {
-            $grado[$i] = test_input($grado[$i]);
-            $modalidad[$i] = test_input($modalidad[$i]);
+        for ($i=0;$i < count($idCapacitacion);$i++) {
+            $nombreCapacitacion[$i] = test_input($nombreCapacitacion[$i]);
+            $descripcion[$i] = test_input($descripcion[$i]);
             $j = 0;
             $sql = ""; 
             while ($j < count($seleccionar)) { 
-                if ($seleccionar[$j ++] == $nombreCiclo[$i]){
-                    $sql = "UPDATE tCiclo SET nombreCiclo= '$nombreCiclo[$i]', 
-                    grado= '$grado[$i]', modalidad= '$modalidad[$i]' 
-                    WHERE nombreCiclo='$nombreCiclo[$i]'";
+                if ($seleccionar[$j ++] == $idCapacitacion[$i]){
+                    $sql = "UPDATE tCapacitacion SET  
+                    nombreCapacitacion= '$nombreCapacitacion[$i]', descripcion= '$descripcion[$i]'  
+                    WHERE idCapacitacion=$idCapacitacion[$i]";
                     if ($mysqli->query($sql)){
-                        echo "Registro " .$nombreCiclo[$i] ." modificado satisfactoriamente";
+                        echo "Registro " .$idCapacitacion[$i] ." modificado satisfactoriamente";
                     } else if (($sql != '') && (!$mysqli->query($sql))){
                         echo "Error: " .$mysqli->error;
                     }
@@ -100,14 +100,14 @@
     if ((isset($_POST["eliminar"])) && (isset($_POST["seleccionar"]))) {
         
         $seleccionar = $_POST["seleccionar"];
-        $nombreCiclo = $_POST["nombreCiclo"];
+        $idCapacitacion = $_POST["idCapacitacion"];
 
-        for ($i=0;$i < count($nombreCiclo);$i++) {  
+        for ($i=0;$i < count($idCapacitacion);$i++) {  
             $j = 0;
             $sql = "";                  
             while ($j < count($seleccionar)){
-                if ($seleccionar[$j ++] == $nombreCiclo[$i]){
-                    $sql = "DELETE FROM tCiclo WHERE nombreCiclo='$nombreCiclo[$i]'";
+                if ($seleccionar[$j ++] == $idCapacitacion[$i]){
+                    $sql = "DELETE FROM tCapacitacion WHERE idCapacitacion=$idCapacitacion[$i]";
                 }
             }  
             if ($sql!="" and (! $mysqli->query($sql)))
@@ -227,16 +227,16 @@
                             </a>
                             <ul class="dropdown-menu dropdown-user">
                                 <li>
-                                    <a href="#"><i class="fa fa-user fa-fw"></i> Ciclos</a>
+                                    <a href="tablaCiclo.php"><i class="fa fa-user fa-fw"></i> Ciclos</a>
                                 </li>
                                 <li>
                                     <a href="tablaAsignatura.php"><i class="fa fa-gear fa-fw"></i> Asignaturas</a>
                                 </li>
                                 <li>
-                                    <a href="tablaCapacitacion.php"><i class="fa fa-gear fa-fw"></i> Capacitacion</a>
+                                    <a href="#"><i class="fa fa-gear fa-fw"></i> Capacitacion</a>
                                 </li>
                                 <li>
-                                    <a href="tablaCursos.php"><i class="fa fa-gear fa-fw"></i> Cursos</a>
+                                    <a href="tablaCurso.php"><i class="fa fa-gear fa-fw"></i> Cursos</a>
                                 </li>
                                 <li>
                                     <a href="tablaSalidaProfesional.php"><i class="fa fa-gear fa-fw"></i> Salidas Profesionales</a>
@@ -258,7 +258,7 @@
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Tabla Ciclos
+                    <h1 class="page-header">Tabla Capacitacion
                     <small>Tablas - Administración</small>
                     </h1>
                 </div>
@@ -277,18 +277,18 @@
                     ?>
                             <div class="form-group">
                                 <fieldset>
-                                    <legend><span>Alta de Ciclos</span></legend>
+                                    <legend><span>Alta de Capacitacion</span></legend>
                                     <form class="form" method="POST" enctype="multipart/form-data"
                                      action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
                                         
-                                        <label for="nombreCiclo">Nombre del Ciclo </label><a name="nombreCiclo"></a>
-                                        <input class="form-control" tabindex="1" type="text" name="nombreCiclo" placeholder="Nombre del Ciclo" required>
+                                        <label for="idCapacitacion">ID Capacitacion </label><a name="idCapacitacion"></a>
+                                        <input class="form-control" tabindex="1" type="number" name="idCapacitacion" placeholder="ID Capacitacion" required>
 
-                                        <label for="grado">Grado </label><a name="grado"></a> 
-                                        <input class="form-control" tabindex="2" type="text" name="grado" placeholder="Medio o Superior" required>
+                                        <label for="nombreCapacitacion">Nombre </label><a name="nombreCapacitacion"></a> 
+                                        <input class="form-control" tabindex="2" type="text" name="nombreCapacitacion" placeholder="Nombre" required>
 
-                                        <label for="modalidad">Modalidad </label><a name="modalidad"></a>
-                                        <input class="form-control" tabindex="3" type="text" name="modalidad" placeholder="Presencial, Semi-presencial o A distancia" required>
+                                        <label for="descripcion">Descripción </label><a name="descripcion"></a>
+                                        <input class="form-control" tabindex="3" type="text" name="descripcion" placeholder="Descripción" required>
 
                                         <label for="alta2"></label><a name="alta2"></a>
                                         <button type="submit" name="alta2" class="btn btn-default"/>Alta</button>
@@ -318,31 +318,31 @@
                         // LANZAMOS LA CONSULTA DE TODOS LOS DATOS DE LA TABLA MANUALES
                         // PARA MOSTRARLOS EN EL FORMULARIO
                         
-                        $sql = "SELECT * FROM  tCiclo";                       
+                        $sql = "SELECT * FROM  tCapacitacion";                       
                         $resultado = $mysqli -> query($sql);                        
                     ?>
-                        <legend><span>Alta, baja y modificación de Ciclos</span></legend> 
+                        <legend><span>Alta, baja y modificación de Capacitacion</span></legend> 
 
                         <form class="form" method="POST" enctype="multipart/form-data" 
                             action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
 
                             <table class="table-hover table-responsive table-striped">
-                                <tr><td colspan="6">Dar de alta un nuevo Ciclo: </td></tr>
+                                <tr><td colspan="6">Dar de alta una nueva Capacitación: </td></tr>
                                 <tr><td colspan="6"><button type="submit" name="alta" class="btn btn-default" />Alta</button></td></tr>
                                 <tr>
                                     <th>Seleccionar</th>
-                                    <th>Nombre del Ciclo</th>
-                                    <th>Grado</th>
-                                    <th>Modalidad</th>
+                                    <th>ID de Capacitacion</th>
+                                    <th>Nombre</th>
+                                    <th>Descripcion</th>
                                 </tr>
                         <?php
                             while ($fila = $resultado -> fetch_assoc()){
                                 echo '
                                 <tr>
-                                    <td><input type="checkbox" name="seleccionar[]" class="form-control" value="' .$fila['nombreCiclo'] .'"/></td>
-                                    <td><input type="text" name="nombreCiclo[]" class="form-control" value="' .$fila['nombreCiclo'] .'" readonly/></td>
-                                    <td><input type="text" name="grado[]" class="form-control" value="' .$fila['grado'] .'"></td>
-                                    <td><input type="text" name="modalidad[]" class="form-control" value="' .$fila['modalidad'] .'"></td>
+                                    <td><input type="checkbox" name="seleccionar[]" class="form-control" value="' .$fila['idCapacitacion'] .'"/></td>
+                                    <td><input type="number" name="idCapacitacion[]" class="form-control" value="' .$fila['idCapacitacion'] .'" readonly/></td>
+                                    <td><input type="text" name="nombreCapacitacion[]" class="form-control" value="' .$fila['nombreCapacitacion'] .'"></td>
+                                    <td><input type="text" name="descripcion[]" class="form-control" value="' .$fila['descripcion'] .'"></td>
                                 </tr>';
                                 
                             }

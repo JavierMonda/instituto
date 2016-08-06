@@ -70,7 +70,7 @@ DROP TABLE IF EXISTS `tCurso`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tCurso` (
-  `nombreCurso` varchar(45) NOT NULL,
+  `nombreCurso` enum('Primero','Segundo','Tercero') NOT NULL,
   PRIMARY KEY (`nombreCurso`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -132,7 +132,7 @@ DROP TABLE IF EXISTS `tTiene`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tTiene` (
   `nombreCicloT` varchar(45) NOT NULL,
-  `nombreCursoT` varchar(45) NOT NULL,
+  `nombreCursoT` enum('Primero','Segundo','Tercero') NOT NULL,
   `nombreAsignaturaT` varchar(45) NOT NULL,
   PRIMARY KEY (`nombreCicloT`,`nombreCursoT`,`nombreAsignaturaT`),
   KEY `nombreCursoTfk_idx` (`nombreCursoT`),

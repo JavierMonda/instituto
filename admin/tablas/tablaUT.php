@@ -10,7 +10,7 @@
     <meta name="description" content="">
     <meta name="author" content="Javier Jiménez García">
 
-    <title>Tabla Ciclos - Administración</title>
+    <title>Tabla Unidades de Trabajo - Administración</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="../bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -49,12 +49,13 @@
 
     // SI HACEMOS CLICK EN ALTA 2
     if (isset($_POST["alta2"])){
-        $nombreCiclo = $_POST["nombreCiclo"];
-        $grado = $_POST["grado"];
-        $modalidad = $_POST["modalidad"];
+        $nombreUT = $_POST["nombreUT"];
+        $descripcionUT = $_POST["descripcionUT"];
+        $apuntes = $_POST["apuntes"];
+        $nombreAsignaturaUT = $_POST["nombreAsignaturaUT"];
 
         //Se describe la inserción de datos en SQL
-        $sql = "INSERT INTO tCiclo VALUES ('$nombreCiclo','$grado','$modalidad');";
+        $sql = "INSERT INTO tUnidadTrabajo VALUES ('$nombreUT','$descripcionUT','$apuntes', '$nombreAsignaturaUT');";
         
         if ($mysqli->query($sql)) {
             echo "
@@ -72,22 +73,25 @@
     // SI HACEMOS CLICK EN GUARDAR
     if (isset($_POST["guardar"]) && (isset($_POST["seleccionar"]))) {
         $seleccionar = $_POST["seleccionar"];
-        $nombreCiclo = $_POST["nombreCiclo"];
-        $grado = $_POST["grado"];
-        $modalidad = $_POST["modalidad"];
+        $nombreUT = $_POST["nombreUT"];
+        $descripcionUT = $_POST["descripcionUT"];
+        $apuntes = $_POST["apuntes"];
+        $nombreAsignaturaUT = $_POST["nombreAsignaturaUT"];
                         
-        for ($i=0;$i < count($nombreCiclo);$i++) {
-            $grado[$i] = test_input($grado[$i]);
-            $modalidad[$i] = test_input($modalidad[$i]);
+        for ($i=0;$i < count($nombreUT);$i++) {
+            $descripcionUT[$i] = test_input($descripcionUT[$i]);
+            $apuntes[$i] = test_input($apuntes[$i]);
+            $nombreAsignaturaUT[$i]= test_input($nombreAsignaturaUT[$i]);
             $j = 0;
             $sql = ""; 
             while ($j < count($seleccionar)) { 
-                if ($seleccionar[$j ++] == $nombreCiclo[$i]){
-                    $sql = "UPDATE tCiclo SET nombreCiclo= '$nombreCiclo[$i]', 
-                    grado= '$grado[$i]', modalidad= '$modalidad[$i]' 
-                    WHERE nombreCiclo='$nombreCiclo[$i]'";
+                if ($seleccionar[$j ++] == $nombreUT[$i]){
+                    $sql = "UPDATE tUnidadTrabajo SET nombreUT= '$nombreUT[$i]', 
+                    descripcionUT= '$descripcionUT[$i]', apuntes= '$apuntes[$i]',
+                    nombreAsignaturaUT= '$nombreAsignaturaUT[$i]' 
+                    WHERE nombreUT='$nombreUT[$i]'";
                     if ($mysqli->query($sql)){
-                        echo "Registro " .$nombreCiclo[$i] ." modificado satisfactoriamente";
+                        echo "Registro " .$nombreUT[$i] ." modificado satisfactoriamente";
                     } else if (($sql != '') && (!$mysqli->query($sql))){
                         echo "Error: " .$mysqli->error;
                     }
@@ -100,14 +104,17 @@
     if ((isset($_POST["eliminar"])) && (isset($_POST["seleccionar"]))) {
         
         $seleccionar = $_POST["seleccionar"];
-        $nombreCiclo = $_POST["nombreCiclo"];
+        $nombreUT = $_POST["nombreUT"];
+        $descripcionUT = $_POST["descripcionUT"];
+        $apuntes = $_POST["apuntes"];
+        $nombreAsignaturaUT = $_POST["nombreAsignaturaUT"];
 
-        for ($i=0;$i < count($nombreCiclo);$i++) {  
+        for ($i=0;$i < count($nombreUT);$i++) {  
             $j = 0;
             $sql = "";                  
             while ($j < count($seleccionar)){
-                if ($seleccionar[$j ++] == $nombreCiclo[$i]){
-                    $sql = "DELETE FROM tCiclo WHERE nombreCiclo='$nombreCiclo[$i]'";
+                if ($seleccionar[$j ++] == $nombreUT[$i]){
+                    $sql = "DELETE FROM tUnidadTrabajo WHERE nombreUT='$nombreUT[$i]'";
                 }
             }  
             if ($sql!="" and (! $mysqli->query($sql)))
@@ -242,7 +249,7 @@
                                     <a href="tablaSalidaProfesional.php"><i class="fa fa-gear fa-fw"></i> Salidas Profesionales</a>
                                 </li>
                                 <li>
-                                    <a href="tablaUT.php"><i class="fa fa-gear fa-fw"></i> Unidades de Trabajo</a>
+                                    <a href="#"><i class="fa fa-gear fa-fw"></i> Unidades de Trabajo</a>
                                 </li>
                             </ul>
                             <!-- /.dropdown-user -->
@@ -277,18 +284,21 @@
                     ?>
                             <div class="form-group">
                                 <fieldset>
-                                    <legend><span>Alta de Ciclos</span></legend>
+                                    <legend><span>Alta de Unidades de Trabajo</span></legend>
                                     <form class="form" method="POST" enctype="multipart/form-data"
                                      action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
                                         
-                                        <label for="nombreCiclo">Nombre del Ciclo </label><a name="nombreCiclo"></a>
-                                        <input class="form-control" tabindex="1" type="text" name="nombreCiclo" placeholder="Nombre del Ciclo" required>
+                                        <label for="nombreUT">Nombre de la Unidad de Trabajo </label><a name="nombreUT"></a>
+                                        <input class="form-control" tabindex="1" type="text" name="nombreUT" placeholder="Nombre de la Unidad de Trabajo" required>
 
-                                        <label for="grado">Grado </label><a name="grado"></a> 
-                                        <input class="form-control" tabindex="2" type="text" name="grado" placeholder="Medio o Superior" required>
+                                        <label for="descripcionUT">Descripción </label><a name="descripcionUT"></a> 
+                                        <input class="form-control" tabindex="2" type="text" name="descripcionUT" placeholder="Descripción" required>
 
-                                        <label for="modalidad">Modalidad </label><a name="modalidad"></a>
-                                        <input class="form-control" tabindex="3" type="text" name="modalidad" placeholder="Presencial, Semi-presencial o A distancia" required>
+                                        <label for="apuntes">Apuntes </label><a name="apuntes"></a>
+                                        <input class="form-control" tabindex="3" type="text" name="apuntes" placeholder="Enlace a los apuntes" required>
+
+                                        <label for="apuntes">Asignatura </label><a name="nombreAsignaturaUT"></a>
+                                        <input class="form-control" tabindex="3" type="text" name="nombreAsignaturaUT" placeholder="Asignatura" required>
 
                                         <label for="alta2"></label><a name="alta2"></a>
                                         <button type="submit" name="alta2" class="btn btn-default"/>Alta</button>
@@ -318,31 +328,33 @@
                         // LANZAMOS LA CONSULTA DE TODOS LOS DATOS DE LA TABLA MANUALES
                         // PARA MOSTRARLOS EN EL FORMULARIO
                         
-                        $sql = "SELECT * FROM  tCiclo";                       
+                        $sql = "SELECT * FROM  tUnidadTrabajo";                       
                         $resultado = $mysqli -> query($sql);                        
                     ?>
-                        <legend><span>Alta, baja y modificación de Ciclos</span></legend> 
+                        <legend><span>Alta, baja y modificación de Unidades de Trabajo</span></legend> 
 
                         <form class="form" method="POST" enctype="multipart/form-data" 
                             action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
 
                             <table class="table-hover table-responsive table-striped">
-                                <tr><td colspan="6">Dar de alta un nuevo Ciclo: </td></tr>
+                                <tr><td colspan="6">Dar de alta una nueva Unidad de Trabajo: </td></tr>
                                 <tr><td colspan="6"><button type="submit" name="alta" class="btn btn-default" />Alta</button></td></tr>
                                 <tr>
                                     <th>Seleccionar</th>
-                                    <th>Nombre del Ciclo</th>
-                                    <th>Grado</th>
-                                    <th>Modalidad</th>
+                                    <th>Nombre de la Unidad de Trabajo</th>
+                                    <th>Descripción</th>
+                                    <th>Apuntes</th>
+                                    <th>Asignatura</th>
                                 </tr>
                         <?php
                             while ($fila = $resultado -> fetch_assoc()){
                                 echo '
                                 <tr>
-                                    <td><input type="checkbox" name="seleccionar[]" class="form-control" value="' .$fila['nombreCiclo'] .'"/></td>
-                                    <td><input type="text" name="nombreCiclo[]" class="form-control" value="' .$fila['nombreCiclo'] .'" readonly/></td>
-                                    <td><input type="text" name="grado[]" class="form-control" value="' .$fila['grado'] .'"></td>
-                                    <td><input type="text" name="modalidad[]" class="form-control" value="' .$fila['modalidad'] .'"></td>
+                                    <td><input type="checkbox" name="seleccionar[]" class="form-control" value="' .$fila['nombreUT'] .'"/></td>
+                                    <td><input type="text" name="nombreUT[]" class="form-control" value="' .$fila['nombreUT'] .'" readonly/></td>
+                                    <td><input type="text" name="descripcionUT[]" class="form-control" value="' .$fila['descripcionUT'] .'"></td>
+                                    <td><input type="text" name="apuntes[]" class="form-control" value="' .$fila['apuntes'] .'"></td>
+                                    <td><input type="text" name="nombreAsignaturaUT[]" class="form-control" value="' .$fila['nombreAsignaturaUT'] .'"></td>
                                 </tr>';
                                 
                             }
