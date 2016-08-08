@@ -7,3 +7,4 @@ cosas que hay que hacer....
 # Mostrar avisos PHP y errores en '<div id"error">'
 	- Muestra conexión exitosa!.
 	- Muestra 'Registro insertado con éxtito!'
+# Sistema de Login en sección Admin.
